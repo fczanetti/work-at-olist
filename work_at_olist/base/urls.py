@@ -4,5 +4,5 @@ from work_at_olist.base import views
 
 app_name = 'base'
 urlpatterns = [
-    path('authors', views.authors, name='authors')
+    path('authors', views.authors, name='authors'),
 ]
