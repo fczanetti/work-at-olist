@@ -6,3 +6,9 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+    def to_dict(self):
+        return {
+            "id": self.pk,
+            "name": self.name
+        }
