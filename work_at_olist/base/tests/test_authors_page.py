@@ -67,3 +67,13 @@ def test_correct_number_of_pages_and_current_page(resp_authors_page):
     """
     assert json.loads(resp_authors_page.content)['num_pages'], 3
     assert json.loads(resp_authors_page.content)['curr_page'], 1
+
+
+def test_filter_by_name(client, authors):
+    """
+    Certifies that the response is correct
+    when filtering by name.
+    """
+    author = Author.objects.get(name='Author 5')
+    resp = client.get(reverse('base:authors'), {'name': author.name})
+    assert json.loads(resp.content)['authors'] == [author.to_dict()]
