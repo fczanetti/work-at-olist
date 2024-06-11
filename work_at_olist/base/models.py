@@ -12,3 +12,22 @@ class Author(models.Model):
             "id": self.pk,
             "name": self.name
         }
+
+
+class Book(models.Model):
+    name = models.CharField(max_length=64)
+    edition = models.PositiveSmallIntegerField()
+    publication_year = models.PositiveSmallIntegerField()
+    authors = models.ManyToManyField(Author)
+
+    def __str__(self):
+        return self.name
+
+    def to_dict(self):
+        return {
+            'id': self.pk,
+            'name': self.name,
+            'edition': self.edition,
+            'publication_year': self.publication_year,
+            'authors': self.authors
+        }
