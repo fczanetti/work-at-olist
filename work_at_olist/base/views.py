@@ -1,7 +1,10 @@
+import http
+import json
+
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 
-from work_at_olist.base.models import Author
+from work_at_olist.base.models import Author, Book
 
 DEFAULT_ITEMS_PER_PAGE = 10
 
@@ -21,3 +24,11 @@ def authors(request):
             'num_pages': paginator.num_pages,
             'curr_page': int(page)}
     return JsonResponse(data)
+
+
+def book_creation(request):
+    data = json.load(request)
+    authors = data.pop('authors')
+    book = Book.objects.create(**data)
+    book.authors.add(*authors)
+    return JsonResponse(book.to_dict(), status=http.HTTPStatus.CREATED)
