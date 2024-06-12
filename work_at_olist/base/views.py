@@ -36,7 +36,7 @@ def book_creation(request):
     return JsonResponse(book.to_dict(), status=http.HTTPStatus.CREATED)
 
 
-def books_read(request):
+def books_list(request):
     books = Book.objects.all()
     page = request.GET.get('page', 1)
     items_per_page = request.GET.get('num_items', DEFAULT_BOOKS_PER_PAGE)
@@ -59,4 +59,9 @@ def book_update(request, id):
     book.publication_year = data['publication_year']
     book.save()
     book.authors.add(*authors)
+    return JsonResponse(book.to_dict(), status=http.HTTPStatus.OK)
+
+
+def book_read(request, id):
+    book = get_object_or_404(Book, id=id)
     return JsonResponse(book.to_dict(), status=http.HTTPStatus.OK)

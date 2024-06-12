@@ -27,7 +27,7 @@ def resp_books_page(books, client):
     """
     Creates a request to books page and returns a response.
     """
-    resp = client.get(reverse('base:books'))
+    resp = client.get(reverse('base:books_list'))
     return resp
 
 
@@ -36,7 +36,7 @@ def resp_books_page_2(books, client):
     """
     Creates a request to books page 2 and returns a response.
     """
-    resp = client.get(reverse('base:books'), {'page': 2, 'num_items': 3})
+    resp = client.get(reverse('base:books_list'), {'page': 2, 'num_items': 3})
     return resp
 
 
