@@ -4,16 +4,7 @@ import pytest
 from django.urls import reverse
 from http import HTTPStatus
 
-from work_at_olist.base.models import Author, Book
-
-
-@pytest.fixture
-def author(db):
-    """
-    Creates and returns an author.
-    """
-    author = Author.objects.create(name='Author 01')
-    return author
+from work_at_olist.base.models import Book
 
 
 @pytest.fixture
