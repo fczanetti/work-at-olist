@@ -65,8 +65,8 @@ def test_correct_number_of_pages_and_current_page(resp_authors_page):
     Certifies that the number of pages shown is correct
     and current page is also present.
     """
-    assert json.loads(resp_authors_page.content)['num_pages'], 3
-    assert json.loads(resp_authors_page.content)['curr_page'], 1
+    assert json.loads(resp_authors_page.content)['num_pages'] == 3
+    assert json.loads(resp_authors_page.content)['curr_page'] == 1
 
 
 def test_filter_by_name(client, authors):
