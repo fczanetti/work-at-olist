@@ -6,13 +6,14 @@ from django.http import JsonResponse
 
 from work_at_olist.base.models import Author, Book
 
-DEFAULT_ITEMS_PER_PAGE = 10
+DEFAULT_AUTHORS_PER_PAGE = 10
+DEFAULT_BOOKS_PER_PAGE = 10
 
 
 def authors(request):
     authors = Author.objects.all()
     page = request.GET.get('page', 1)
-    items_per_page = request.GET.get('num_items', DEFAULT_ITEMS_PER_PAGE)
+    items_per_page = request.GET.get('num_items', DEFAULT_AUTHORS_PER_PAGE)
     name = request.GET.get('name')
     if name:
         authors = authors.filter(name__contains=name)
@@ -36,4 +37,13 @@ def book_creation(request):
 
 def books_read(request):
     books = Book.objects.all()
-    return JsonResponse({'books': [book.to_dict() for book in books]}, status=http.HTTPStatus.OK)
+    page = request.GET.get('page', 1)
+    items_per_page = request.GET.get('num_items', DEFAULT_BOOKS_PER_PAGE)
+    paginator = Paginator(
+        [book.to_dict() for book in books],
+        items_per_page
+    )
+    data = {'books': paginator.page(page).object_list,
+            'num_pages': paginator.num_pages,
+            'curr_page': int(page)}
+    return JsonResponse(data, status=http.HTTPStatus.OK)
