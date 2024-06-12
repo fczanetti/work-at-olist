@@ -32,3 +32,8 @@ def book_creation(request):
     book = Book.objects.create(**data)
     book.authors.add(*authors)
     return JsonResponse(book.to_dict(), status=http.HTTPStatus.CREATED)
+
+
+def books_read(request):
+    books = Book.objects.all()
+    return JsonResponse({'books': [book.to_dict() for book in books]}, status=http.HTTPStatus.OK)
