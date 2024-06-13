@@ -19,3 +19,17 @@ def book(author, db):
     book = Book.objects.create(name='Book 01', edition=1, publication_year=2024)
     book.authors.add(author)
     return book
+
+
+@pytest.fixture
+def books(db):
+    """
+    Creates and returns some books.
+    """
+    authors = [Author.objects.create(name=f'Author {i}') for i in range(10)]
+    books = []
+    for i, author in enumerate(authors):
+        b = Book.objects.create(name=f'Book {i}', edition=1, publication_year=2024)
+        b.authors.add(author)
+        books.append(b)
+    return books
