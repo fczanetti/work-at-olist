@@ -3,7 +3,7 @@ import json
 
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from work_at_olist.base.models import Author, Book
 
@@ -72,3 +72,7 @@ def book_delete(request, id):
     data = book.to_dict()
     book.delete()
     return JsonResponse(data, status=http.HTTPStatus.OK)
+
+
+def home(request):
+    return render(request, 'base/home.html')
