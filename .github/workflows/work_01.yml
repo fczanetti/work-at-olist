@@ -31,4 +31,9 @@ jobs:
         run: cp contrib/env-sample .env
 
       - name: Run tests
-        run: pipenv run pytest
+        run: pipenv run pytest --cov=work_at_olist
+
+      - name: Upload coverage reports to Codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: pipenv run codecov
