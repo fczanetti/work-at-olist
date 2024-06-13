@@ -11,6 +11,8 @@ sentry-sdk = {extras = ["django"], version = "*"}
 
 [dev-packages]
 flake8 = "*"
+codecov = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.11"
