@@ -1,3 +1,8 @@
+[![codecov](https://codecov.io/gh/fczanetti/work-at-olist/graph/badge.svg?token=FW6xWklGdj)](https://codecov.io/gh/fczanetti/work-at-olist)
+
+## Currently working on this project
+
+
 # Work at Olist
 
 [Olist](https://olist.com/) is a company that offers an integration platform for sellers and marketplaces allowing them to sell their products across multiple channels.
