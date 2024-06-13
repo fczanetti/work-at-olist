@@ -39,10 +39,10 @@ def test_book_not_found_incorrect_id(client, db):
     assert resp.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_deleted_book_returned(resp_book_removal, book):
+def test_deleted_book_returned(resp_book_removal, book, author):
     """
     Certifies that the deleted book is returned
     after removed.
     """
-    data = {'id': 1, 'name': 'Book 01', 'edition': 1, 'publication_year': 2024, 'authors': ['Author 01']}
+    data = {'id': 1, 'name': 'Book 01', 'edition': 1, 'publication_year': 2024, 'authors': [author.pk]}
     assert json.loads(resp_book_removal.content) == data

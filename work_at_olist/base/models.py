@@ -29,5 +29,5 @@ class Book(models.Model):
             'name': self.name,
             'edition': self.edition,
             'publication_year': self.publication_year,
-            'authors': [author.name for author in self.authors.all()]
+            'authors': [author.pk for author in self.authors.all()]
         }
