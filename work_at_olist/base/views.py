@@ -38,8 +38,14 @@ def book_creation(request):
 
 def books_list(request):
     books = Book.objects.all()
+
     page = request.GET.get('page', 1)
     items_per_page = request.GET.get('num_items', DEFAULT_BOOKS_PER_PAGE)
+    name = request.GET.get('name')
+
+    if name:
+        books = books.filter(name__contains=name)
+
     paginator = Paginator(
         [book.to_dict() for book in books],
         items_per_page
