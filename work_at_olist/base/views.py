@@ -42,9 +42,13 @@ def books_list(request):
     page = request.GET.get('page', 1)
     items_per_page = request.GET.get('num_items', DEFAULT_BOOKS_PER_PAGE)
     name = request.GET.get('name')
+    edition = request.GET.get('edition')
 
     if name:
         books = books.filter(name__contains=name)
+
+    if edition:
+        books = books.filter(edition=edition)
 
     paginator = Paginator(
         [book.to_dict() for book in books],
