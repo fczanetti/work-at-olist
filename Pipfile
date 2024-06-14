@@ -8,6 +8,8 @@ django = "*"
 python-decouple = "*"
 pytest-django = "*"
 sentry-sdk = {extras = ["django"], version = "*"}
+dj-database-url = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 flake8 = "*"
