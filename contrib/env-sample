@@ -3,3 +3,5 @@ SECRET_KEY=secret
 ALLOWED_HOSTS=localhost, 127.0.0.1,
 
 SENTRY_DSN=
+
+DATABASE_URL=postgres://user01:pass01@localhost:5432/postgres
