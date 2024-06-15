@@ -44,6 +44,7 @@ def books_list(request):
     name = request.GET.get('name')
     edition = request.GET.get('edition')
     authors = list(map(int, request.GET.getlist('authors')))
+    publication_year = request.GET.get('publication_year')
 
     if name:
         books = books.filter(name__contains=name)
@@ -53,6 +54,9 @@ def books_list(request):
 
     if authors:
         books = books.filter(authors__in=authors).distinct()
+
+    if publication_year:
+        books = books.filter(publication_year=publication_year)
 
     paginator = Paginator(
         [book.to_dict() for book in books],

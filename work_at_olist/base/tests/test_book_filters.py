@@ -43,3 +43,14 @@ def test_book_filter_by_authors_id(client, books):
     book_1.authors.add(a0)
     resp = client.get(reverse('base:books_list'), {'authors': [a0.pk, a1.pk]})
     assert json.loads(resp.content)['books'] == [book_0.to_dict(), book_1.to_dict()]
+
+
+def test_book_filter_by_publication_year(client, books):
+    """
+    Certifies books can be filtered by publication year.
+    """
+    book = books[0]
+    book.publication_year = 2010
+    book.save()
+    resp = client.get(reverse('base:books_list'), {'publication_year': 2010})
+    assert json.loads(resp.content)['books'] == [book.to_dict()]
