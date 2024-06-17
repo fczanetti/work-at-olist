@@ -13,15 +13,18 @@ DEFAULT_BOOKS_PER_PAGE = 10
 
 def authors(request):
     authors = Author.objects.all()
+
     page = request.GET.get('page', 1)
     items_per_page = request.GET.get('num_items', DEFAULT_AUTHORS_PER_PAGE)
     name = request.GET.get('name')
+
     if name:
         authors = authors.filter(name__contains=name)
     paginator = Paginator(
         [author.to_dict() for author in authors],
         items_per_page
     )
+
     data = {'authors': paginator.page(page).object_list,
             'num_pages': paginator.num_pages,
             'curr_page': int(page)}
@@ -30,10 +33,15 @@ def authors(request):
 
 def book_creation(request):
     data = json.load(request)
+
     authors = data.pop('authors')
     book = Book.objects.create(**data)
     book.authors.add(*authors)
-    return JsonResponse(book.to_dict(), status=http.HTTPStatus.CREATED)
+
+    response = JsonResponse(book.to_dict(), status=http.HTTPStatus.CREATED)
+    response['Location'] = book.get_absolute_url()
+
+    return response
 
 
 def books_list(request):
@@ -42,6 +50,7 @@ def books_list(request):
     page = request.GET.get('page', 1)
     items_per_page = request.GET.get('num_items', DEFAULT_BOOKS_PER_PAGE)
     name = request.GET.get('name')
+
     edition = request.GET.get('edition')
     authors = list(map(int, request.GET.getlist('authors')))
     publication_year = request.GET.get('publication_year')
@@ -71,12 +80,15 @@ def books_list(request):
 def book_update(request, id):
     book = get_object_or_404(Book, id=id)
     data = json.loads(request.body)
+
     authors = data.pop('authors')
+
     book.name = data['name']
     book.edition = data['edition']
     book.publication_year = data['publication_year']
     book.save()
     book.authors.add(*authors)
+
     return JsonResponse(book.to_dict(), status=http.HTTPStatus.OK)
 
 

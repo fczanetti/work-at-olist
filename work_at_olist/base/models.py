@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -22,6 +23,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('base:book_read', args=(self.pk,))
 
     def to_dict(self):
         return {
