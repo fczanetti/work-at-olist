@@ -42,3 +42,12 @@ def test_book_returned_after_created(resp_book_creation):
     """
     book = Book.objects.first()
     assert json.loads(resp_book_creation.content) == book.to_dict()
+
+
+def test_book_location_informed_after_creation(resp_book_creation):
+    """
+    Certifies the location of the book is informed
+    after creation.
+    """
+    book = Book.objects.first()
+    assert resp_book_creation.headers['Location'] == book.get_absolute_url()
