@@ -3,9 +3,10 @@ from math import ceil
 
 from ninja import Router, Schema, Query
 from .models import Author, Book
-from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema
+from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn
 from ninja.pagination import paginate, PaginationBase
 from django.conf import settings
+from django.http import HttpResponse
 
 router = Router()
 
@@ -46,3 +47,13 @@ def books_list(request, filters: BookFilterSchema = Query(...)):
     books = filters.filter(books)
 
     return books
+
+
+@router.post('/books/create', response={201: BookOut})
+def book_creation(request, payload: BookIn, response: HttpResponse):
+    payload_dict = payload.dict()
+    authors = payload_dict.pop('authors')
+    book = Book.objects.create(**payload_dict)
+    book.authors.add(*authors)
+    response['Location'] = book.get_absolute_url()
+    return book
