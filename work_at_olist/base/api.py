@@ -2,8 +2,8 @@ from typing import List, Any
 from math import ceil
 
 from ninja import Router, Schema, Query
-from .models import Author
-from .schemas import AuthorOut, AuthorFilterSchema
+from .models import Author, Book
+from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema
 from ninja.pagination import paginate, PaginationBase
 from django.conf import settings
 
@@ -21,8 +21,6 @@ class CustomPagination(PaginationBase):
         num_pages: int
         curr_page: int
 
-    # items_attribute: str = "authors"
-
     def paginate_queryset(self, queryset, pagination: Input, **params):
         skip = (pagination.page - 1) * pagination.num_items
         return {
@@ -32,10 +30,19 @@ class CustomPagination(PaginationBase):
         }
 
 
-@router.get('/', response=List[AuthorOut])
+@router.get('/authors', response=List[AuthorOut])
 @paginate(CustomPagination)
 def authors(request, filters: AuthorFilterSchema = Query(...)):
     authors = Author.objects.all()
     authors = filters.filter(authors)
 
     return authors
+
+
+@router.get('/books', response=List[BookOut])
+@paginate(CustomPagination)
+def books_list(request, filters: BookFilterSchema = Query(...)):
+    books = Book.objects.all().distinct()
+    books = filters.filter(books)
+
+    return books
