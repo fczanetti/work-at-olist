@@ -76,4 +76,4 @@ def test_filter_by_name(client, authors):
     """
     author = Author.objects.get(name='Author 5')
     resp = client.get('/api/authors/', {'name': author.name})
-    assert json.loads(resp.content)['authors'] == [author.to_dict()]
+    assert json.loads(resp.content)['items'] == [author.to_dict()]

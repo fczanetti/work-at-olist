@@ -17,16 +17,16 @@ class CustomPagination(PaginationBase):
         num_items: int = settings.NINJA_PAGINATION_PER_PAGE
 
     class Output(Schema):
-        authors: List[Any]
+        items: List[Any]
         num_pages: int
         curr_page: int
 
-    items_attribute: str = "authors"
+    # items_attribute: str = "authors"
 
     def paginate_queryset(self, queryset, pagination: Input, **params):
         skip = (pagination.page - 1) * pagination.num_items
         return {
-            'authors': queryset[skip: skip + pagination.num_items],
+            'items': queryset[skip: skip + pagination.num_items],
             'num_pages': ceil(queryset.count() / pagination.num_items),
             'curr_page': pagination.page,
         }
