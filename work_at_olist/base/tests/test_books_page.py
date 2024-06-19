@@ -2,7 +2,6 @@ import json
 from http import HTTPStatus
 
 import pytest
-from django.urls import reverse
 
 from work_at_olist.django_assertions import assert_contains, assert_not_contains
 
@@ -12,7 +11,7 @@ def resp_books_page(books, client):
     """
     Creates a request to books page and returns a response.
     """
-    resp = client.get(reverse('base:books_list'))
+    resp = client.get('/api/books')
     return resp
 
 
@@ -21,7 +20,7 @@ def resp_books_page_2(books, client):
     """
     Creates a request to books page 2 and returns a response.
     """
-    resp = client.get(reverse('base:books_list'), {'page': 2, 'num_items': 3})
+    resp = client.get('/api/books', {'page': 2, 'num_items': 3})
     return resp
 
 

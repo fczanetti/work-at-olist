@@ -20,7 +20,7 @@ def resp_authors_page(client, authors):
     Creates a request to authors page and returns a response.
     """
     # resp = client.get(reverse('base:authors'))
-    resp = client.get('/api/authors/')
+    resp = client.get('/api/authors')
     return resp
 
 
@@ -29,7 +29,7 @@ def resp_authors_page_2(client, authors):
     """
     Creates a request to authors page 2 and returns a response.
     """
-    resp = client.get('/api/authors/', {'page': 2})
+    resp = client.get('/api/authors', {'page': 2})
     return resp
 
 
@@ -75,5 +75,5 @@ def test_filter_by_name(client, authors):
     when filtering by name.
     """
     author = Author.objects.get(name='Author 5')
-    resp = client.get('/api/authors/', {'name': author.name})
+    resp = client.get('/api/authors', {'name': author.name})
     assert json.loads(resp.content)['items'] == [author.to_dict()]
