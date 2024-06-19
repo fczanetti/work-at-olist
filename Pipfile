@@ -11,6 +11,7 @@ sentry-sdk = {extras = ["django"], version = "*"}
 dj-database-url = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
+django-ninja = "*"
 
 [dev-packages]
 flake8 = "*"

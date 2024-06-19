@@ -1,7 +1,6 @@
 import json
 
 import pytest
-from django.urls import reverse
 from http import HTTPStatus
 
 from work_at_olist.base.models import Author
@@ -20,7 +19,8 @@ def resp_authors_page(client, authors):
     """
     Creates a request to authors page and returns a response.
     """
-    resp = client.get(reverse('base:authors'))
+    # resp = client.get(reverse('base:authors'))
+    resp = client.get('/api/authors/')
     return resp
 
 
@@ -29,7 +29,7 @@ def resp_authors_page_2(client, authors):
     """
     Creates a request to authors page 2 and returns a response.
     """
-    resp = client.get(reverse('base:authors'), {'page': 2})
+    resp = client.get('/api/authors/', {'page': 2})
     return resp
 
 
@@ -75,5 +75,5 @@ def test_filter_by_name(client, authors):
     when filtering by name.
     """
     author = Author.objects.get(name='Author 5')
-    resp = client.get(reverse('base:authors'), {'name': author.name})
+    resp = client.get('/api/authors/', {'name': author.name})
     assert json.loads(resp.content)['authors'] == [author.to_dict()]
