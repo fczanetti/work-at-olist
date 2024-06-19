@@ -1,7 +1,6 @@
 import json
 
 import pytest
-from django.urls import reverse
 from http import HTTPStatus
 
 from work_at_olist.base.models import Book
@@ -17,7 +16,7 @@ def resp_book_creation(client, author):
             'edition': 1,
             'publication_year': 2023,
             'authors': [author.pk]}
-    resp = client.post(reverse('base:book_creation'), data, content_type='application/json')
+    resp = client.post('/api/books/create', data, content_type='application/json')
     return resp
 
 

@@ -17,6 +17,12 @@ class BookOut(ModelSchema):
         fields = ['id', 'name', 'edition', 'publication_year', 'authors']
 
 
+class BookIn(ModelSchema):
+    class Meta:
+        model = Book
+        fields = ['name', 'edition', 'publication_year', 'authors']
+
+
 class AuthorFilterSchema(FilterSchema):
     name: Optional[str] = Field(None, json_schema_extra={'q': 'name__contains'})
 

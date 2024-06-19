@@ -6,21 +6,6 @@ from django.shortcuts import get_object_or_404
 
 from work_at_olist.base.models import Book
 
-DEFAULT_BOOKS_PER_PAGE = 10
-
-
-def book_creation(request):
-    data = json.load(request)
-
-    authors = data.pop('authors')
-    book = Book.objects.create(**data)
-    book.authors.add(*authors)
-
-    response = JsonResponse(book.to_dict(), status=http.HTTPStatus.CREATED)
-    response['Location'] = book.get_absolute_url()
-
-    return response
-
 
 def book_update(request, id):
     book = get_object_or_404(Book, id=id)
