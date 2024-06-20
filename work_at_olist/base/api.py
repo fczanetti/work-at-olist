@@ -14,7 +14,7 @@ router = Router()
 
 class CustomPagination(PaginationBase):
     class Input(Schema):
-        skip: int = 0
+        # skip: int = 0
         page: int = 1
         num_items: int = settings.NINJA_PAGINATION_PER_PAGE
 
@@ -78,3 +78,11 @@ def book_update(request, book_id: int, payload: BookIn):
     book.authors.add(*payload.authors)
 
     return book
+
+
+@router.delete('/books/delete/{book_id}', response=BookOut)
+def book_delete(request, book_id: int):
+    book = get_object_or_404(Book, id=book_id)
+    data = book.to_dict()
+    book.delete()
+    return data

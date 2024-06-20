@@ -1,5 +1,4 @@
 import pytest
-from django.urls import reverse
 from http import HTTPStatus
 import json
 from work_at_olist.base.models import Book
@@ -11,7 +10,7 @@ def resp_book_removal(book, client):
     Creates a request to remove a book
     and returns a response.
     """
-    resp = client.delete(reverse('base:book_delete', args=(book.pk,)))
+    resp = client.delete(f'/api/books/delete/{book.pk}')
     return resp
 
 
@@ -35,7 +34,7 @@ def test_book_not_found_incorrect_id(client, db):
     Certifies a 404 response is returned if tried
     to remove a book inserting non-existent id.
     """
-    resp = client.delete(reverse('base:book_delete', args=(1234,)))
+    resp = client.delete('/api/books/delete/1234')
     assert resp.status_code == HTTPStatus.NOT_FOUND
 
 
