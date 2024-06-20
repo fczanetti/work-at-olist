@@ -1,7 +1,6 @@
 import json
 
 import pytest
-from django.urls import reverse
 from http import HTTPStatus
 
 
@@ -11,7 +10,7 @@ def resp_book_read_page(client, book):
     Creates a request to read a book and
     returns a response.
     """
-    resp = client.get(reverse('base:book_read', args=(book.pk,)))
+    resp = client.get(f'/api/books/{book.pk}')
     return resp
 
 
@@ -35,5 +34,5 @@ def test_book_not_found_incorrect_id(client, db):
     Certifies that a 404 response is returned
     if tried to read a book with invalid id.
     """
-    resp = client.get(reverse('base:book_read', args=(1234,)))
+    resp = client.get('/api/books/1234')
     assert resp.status_code == HTTPStatus.NOT_FOUND
