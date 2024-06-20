@@ -61,6 +61,12 @@ def book_creation(request, payload: BookIn, response: HttpResponse):
     return book
 
 
+@router.get('/books/{book_id}', response=BookOut)
+def book_read(request, book_id: int):
+    book = get_object_or_404(Book, id=book_id)
+    return book
+
+
 @router.put('/books/update/{book_id}', response=BookOut)
 def book_update(request, book_id: int, payload: BookIn):
     book = get_object_or_404(Book, id=book_id)
