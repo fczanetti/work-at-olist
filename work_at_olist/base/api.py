@@ -1,6 +1,7 @@
 from typing import List, Any
 from math import ceil
 
+from django.shortcuts import get_object_or_404
 from ninja import Router, Schema, Query
 from .models import Author, Book
 from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn
@@ -56,4 +57,18 @@ def book_creation(request, payload: BookIn, response: HttpResponse):
     book = Book.objects.create(**payload_dict)
     book.authors.add(*authors)
     response['Location'] = book.get_absolute_url()
+
+    return book
+
+
+@router.put('/books/update/{book_id}', response=BookOut)
+def book_update(request, book_id: int, payload: BookIn):
+    book = get_object_or_404(Book, id=book_id)
+
+    book.name = payload.name
+    book.edition = payload.edition
+    book.publication_year = payload.publication_year
+    book.save()
+    book.authors.add(*payload.authors)
+
     return book
