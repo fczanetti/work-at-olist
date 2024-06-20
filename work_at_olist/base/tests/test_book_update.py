@@ -1,7 +1,6 @@
 import json
 
 import pytest
-from django.urls import reverse
 from http import HTTPStatus
 from work_at_olist.base.models import Book
 
@@ -25,9 +24,7 @@ def resp_book_update(book_to_update, client, author):
             'edition': 1,
             'publication_year': 2024,
             'authors': [author.pk]}
-    resp = client.put(reverse('base:book_update',
-                              args=(book_to_update.pk,)), data,
-                      content_type='application/json')
+    resp = client.put(f'/api/books/update/{book_to_update.pk}', data, content_type='application/json')
     return resp
 
 
@@ -64,7 +61,6 @@ def test_book_not_found(client, author):
             'edition': 1,
             'publication_year': 2024,
             'authors': [author.pk]}
-    resp = client.put(reverse('base:book_update',
-                              args=(1234,)), data,
+    resp = client.put('/api/books/update/1234', data,
                       content_type='application/json')
     assert resp.status_code == HTTPStatus.NOT_FOUND
