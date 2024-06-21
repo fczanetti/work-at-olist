@@ -14,7 +14,6 @@ router = Router()
 
 class CustomPagination(PaginationBase):
     class Input(Schema):
-        # skip: int = 0
         page: int = 1
         num_items: int = settings.NINJA_PAGINATION_PER_PAGE
 
