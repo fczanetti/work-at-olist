@@ -1,34 +1,16 @@
-from typing import List, Any
-from math import ceil
+from typing import List
 
 from django.shortcuts import get_object_or_404
-from ninja import Router, Schema, Query
+from ninja import Router, Query
+
+from .book_services import create_book, update_book
+from .customizations import CustomPagination
 from .models import Author, Book
-from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn
-from ninja.pagination import paginate, PaginationBase
-from django.conf import settings
+from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn, ErrorMessage
+from ninja.pagination import paginate
 from django.http import HttpResponse
 
 router = Router()
-
-
-class CustomPagination(PaginationBase):
-    class Input(Schema):
-        page: int = 1
-        num_items: int = settings.NINJA_PAGINATION_PER_PAGE
-
-    class Output(Schema):
-        items: List[Any]
-        num_pages: int
-        curr_page: int
-
-    def paginate_queryset(self, queryset, pagination: Input, **params):
-        skip = (pagination.page - 1) * pagination.num_items
-        return {
-            'items': queryset[skip: skip + pagination.num_items],
-            'num_pages': ceil(queryset.count() / pagination.num_items),
-            'curr_page': pagination.page,
-        }
 
 
 @router.get('/authors', response=List[AuthorOut])
@@ -49,20 +31,17 @@ def books_list(request, filters: BookFilterSchema = Query(...)):
     return books
 
 
-@router.post('/books/create', response={201: BookOut})
+@router.post('/books/create', response={201: BookOut, 400: ErrorMessage})
 def book_creation(request, payload: BookIn, response: HttpResponse):
     payload_dict = payload.dict()
-    authors = payload_dict.pop('authors')
-    book = Book.objects.create(**payload_dict)
-    book.authors.add(*authors)
-    response['Location'] = book.get_absolute_url()
 
-    return book
+    return create_book(payload_dict, response)
 
 
 @router.get('/books/{book_id}', response=BookOut)
 def book_read(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
+
     return book
 
 
@@ -70,13 +49,7 @@ def book_read(request, book_id: int):
 def book_update(request, book_id: int, payload: BookIn):
     book = get_object_or_404(Book, id=book_id)
 
-    book.name = payload.name
-    book.edition = payload.edition
-    book.publication_year = payload.publication_year
-    book.save()
-    book.authors.add(*payload.authors)
-
-    return book
+    return update_book(book, payload)
 
 
 @router.delete('/books/delete/{book_id}', response=BookOut)
@@ -84,4 +57,5 @@ def book_delete(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
     data = book.to_dict()
     book.delete()
+
     return data

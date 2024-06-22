@@ -1,4 +1,4 @@
-from ninja import ModelSchema, FilterSchema
+from ninja import ModelSchema, FilterSchema, Schema
 from pydantic import Field
 
 from work_at_olist.base.models import Author, Book
@@ -32,3 +32,7 @@ class BookFilterSchema(FilterSchema):
     edition: Optional[int] = None
     authors: Optional[list[int]] = Field(None, json_schema_extra={'q': 'authors__in'})
     publication_year: Optional[int] = None
+
+
+class ErrorMessage(Schema):
+    message: str
