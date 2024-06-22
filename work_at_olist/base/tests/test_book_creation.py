@@ -50,3 +50,30 @@ def test_book_location_informed_after_creation(resp_book_creation):
     """
     book = Book.objects.first()
     assert resp_book_creation.headers['Location'] == book.get_absolute_url()
+
+
+def test_book_creation_error_nonexistent_author_id(client, db):
+    """
+    Certifies that a 404 response is returned if the author ID does
+    not exist in the database.
+    """
+    data = {'name': 'Book 01',
+            'edition': 1,
+            'publication_year': 2023,
+            'authors': [150]}
+    resp = client.post('/api/books/create', data, content_type='application/json')
+    assert resp.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_book_creation_error_invalid_publication_year(client, db, author):
+    """
+    Certifies that a 400 response is returned when filled an
+    invalid publication year.
+    """
+    data = {'name': 'Book 01',
+            'edition': 1,
+            'publication_year': 20233,
+            'authors': [author.pk]}
+    resp = client.post('/api/books/create', data, content_type='application/json')
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+    assert json.loads(resp.content) == {"message": "Please, fill a valid year."}
