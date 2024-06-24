@@ -3,7 +3,7 @@ from typing import List
 from django.shortcuts import get_object_or_404
 from ninja import Router, Query
 
-from .book_services import create_book, update_book
+from .books import create_book, update_book
 from .customizations import CustomPagination
 from .models import Author, Book
 from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn, ErrorMessage
