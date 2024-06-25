@@ -50,7 +50,6 @@ classDiagram
 |   |   ├── 📂 base
 |   |   |   ├── api.py
 |   |   |   ├── books.py
-|   |   |   ├── customizations.py
 |   |   |   ├── models.py
 |   |   |   ├── schemas.py
 |   |   |   ├── 📂 management

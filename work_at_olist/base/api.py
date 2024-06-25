@@ -4,9 +4,8 @@ from django.shortcuts import get_object_or_404
 from ninja import Router, Query
 
 from .books import create_book, update_book
-from .customizations import CustomPagination
 from .models import Author, Book
-from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn, ErrorMessage
+from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn, CustomPagination
 from ninja.pagination import paginate
 from django.http import HttpResponse
 
@@ -31,7 +30,7 @@ def books_list(request, filters: BookFilterSchema = Query(...)):
     return books
 
 
-@router.post('/books/create', response={201: BookOut, 400: ErrorMessage})
+@router.post('/books/create', response={201: BookOut})
 def book_creation(request, payload: BookIn, response: HttpResponse):
     payload_dict = payload.dict()
 

@@ -76,4 +76,4 @@ def test_book_creation_error_invalid_publication_year(client, db, author):
             'authors': [author.pk]}
     resp = client.post('/api/books/create', data, content_type='application/json')
     assert resp.status_code == HTTPStatus.BAD_REQUEST
-    assert json.loads(resp.content) == {"message": "Please, fill a valid year."}
+    assert json.loads(resp.content) == {"message": "Please, fill a valid publication year."}
