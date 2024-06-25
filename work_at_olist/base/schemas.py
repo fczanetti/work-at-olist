@@ -1,8 +1,12 @@
+from math import ceil
+
+from django.conf import settings
 from ninja import ModelSchema, FilterSchema, Schema
+from ninja.pagination import PaginationBase
 from pydantic import Field
 
 from work_at_olist.base.models import Author, Book
-from typing import Optional
+from typing import Optional, List, Any
 
 
 class AuthorOut(ModelSchema):
@@ -34,5 +38,20 @@ class BookFilterSchema(FilterSchema):
     publication_year: Optional[int] = None
 
 
-class ErrorMessage(Schema):
-    message: str
+class CustomPagination(PaginationBase):
+    class Input(Schema):
+        page: int = 1
+        num_items: int = settings.NINJA_PAGINATION_PER_PAGE
+
+    class Output(Schema):
+        items: List[Any]
+        num_pages: int
+        curr_page: int
+
+    def paginate_queryset(self, queryset, pagination: Input, **params):
+        skip = (pagination.page - 1) * pagination.num_items
+        return {
+            'items': queryset[skip: skip + pagination.num_items],
+            'num_pages': ceil(queryset.count() / pagination.num_items),
+            'curr_page': pagination.page,
+        }
