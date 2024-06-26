@@ -3,6 +3,7 @@ import json
 import pytest
 from http import HTTPStatus
 from work_at_olist.base.models import Book
+from work_at_olist.base.schemas import BookOut
 
 
 @pytest.fixture
@@ -49,7 +50,8 @@ def test_book_returned_after_update(resp_book_update, book_to_update):
     Certifies the book is returned after updated.
     """
     book = Book.objects.get(id=book_to_update.pk)
-    assert json.loads(resp_book_update.content) == book.to_dict()
+    book_out = BookOut.from_orm(book)
+    assert json.loads(resp_book_update.content) == book_out.dict()
 
 
 def test_book_not_found(client, author):

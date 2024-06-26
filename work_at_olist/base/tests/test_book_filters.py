@@ -1,6 +1,7 @@
 import json
 from http import HTTPStatus
 from work_at_olist.base.models import Author
+from work_at_olist.base.schemas import BookOut
 
 
 def test_book_filter_by_name(client, books):
@@ -8,8 +9,9 @@ def test_book_filter_by_name(client, books):
     Certifies books can be filtered by name.
     """
     book = books[0]
+    book_out = BookOut.from_orm(book)
     resp = client.get('/api/books', {'name': book.name})
-    assert json.loads(resp.content)['items'] == [book.to_dict()]
+    assert json.loads(resp.content)['items'] == [book_out.dict()]
 
 
 def test_book_filter_by_edition(client, books):
@@ -22,8 +24,10 @@ def test_book_filter_by_edition(client, books):
     book_1.save()
     book_2.edition = 5
     book_2.save()
+    book_out_1 = BookOut.from_orm(book_1)
+    book_out_2 = BookOut.from_orm(book_2)
     resp = client.get('/api/books', {'edition': 5})
-    assert json.loads(resp.content)['items'] == [book_1.to_dict(), book_2.to_dict()]
+    assert json.loads(resp.content)['items'] == [book_out_1.dict(), book_out_2.dict()]
 
 
 def test_book_filter_by_authors_id(client, books):
@@ -39,8 +43,10 @@ def test_book_filter_by_authors_id(client, books):
     a0 = Author.objects.filter(id=book_0.authors.first().pk).first()
     a1 = Author.objects.filter(id=book_1.authors.first().pk).first()
     book_1.authors.add(a0)
+    book_out_0 = BookOut.from_orm(book_0)
+    book_out_1 = BookOut.from_orm(book_1)
     resp = client.get('/api/books', {'authors': [a0.pk, a1.pk]})
-    assert json.loads(resp.content)['items'] == [book_0.to_dict(), book_1.to_dict()]
+    assert json.loads(resp.content)['items'] == [book_out_0.dict(), book_out_1.dict()]
 
 
 def test_book_filter_by_publication_year(client, books):
@@ -50,8 +56,9 @@ def test_book_filter_by_publication_year(client, books):
     book = books[0]
     book.publication_year = 2010
     book.save()
+    book_out = BookOut.from_orm(book)
     resp = client.get('/api/books', {'publication_year': 2010})
-    assert json.loads(resp.content)['items'] == [book.to_dict()]
+    assert json.loads(resp.content)['items'] == [book_out.dict()]
 
 
 def test_error_invalid_publication_year(client, books):
