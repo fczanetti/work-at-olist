@@ -3,7 +3,7 @@ from typing import List
 from django.shortcuts import get_object_or_404
 from ninja import Router, Query
 
-from .books import create_book, update_book
+from .books import create_book, update_book, list_books
 from .models import Author, Book
 from .schemas import AuthorOut, AuthorFilterSchema, BookOut, BookFilterSchema, BookIn, CustomPagination
 from ninja.pagination import paginate
@@ -24,7 +24,7 @@ def authors(request, filters: AuthorFilterSchema = Query(...)):
 @router.get('/books', response=List[BookOut])
 @paginate(CustomPagination)
 def books_list(request, filters: BookFilterSchema = Query(...)):
-    books = Book.objects.all().distinct()
+    books = list_books(filters)
     books = filters.filter(books)
 
     return books
