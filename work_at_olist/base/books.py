@@ -40,9 +40,13 @@ def create_book(payload_dict, response: HttpResponse):
 
 
 def update_book(book: Book, payload: BookIn):
+    pub_year = payload.publication_year
+    validate_publication_year(pub_year)
+
     book.name = payload.name
     book.edition = payload.edition
-    book.publication_year = payload.publication_year
+    book.publication_year = pub_year
     book.save()
     book.authors.add(*payload.authors)
+
     return book

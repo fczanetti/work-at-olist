@@ -64,3 +64,18 @@ def test_book_not_found(client, author):
     resp = client.put('/api/books/update/1234', data,
                       content_type='application/json')
     assert resp.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_invalid_publication_year(client, author, book_to_update):
+    """
+    Certifies that a bad request is returned if tried
+    to update a book with invalid publication year.
+    """
+    data = {'name': 'Title',
+            'edition': 1,
+            'publication_year': 20240,
+            'authors': [author.pk]}
+    resp = client.put(f'/api/books/update/{book_to_update.pk}', data,
+                      content_type='application/json')
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+    assert json.loads(resp.content) == {'message': 'Please, fill a valid publication year.'}
