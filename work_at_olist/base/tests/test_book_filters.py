@@ -1,5 +1,5 @@
 import json
-
+from http import HTTPStatus
 from work_at_olist.base.models import Author
 
 
@@ -52,3 +52,13 @@ def test_book_filter_by_publication_year(client, books):
     book.save()
     resp = client.get('/api/books', {'publication_year': 2010})
     assert json.loads(resp.content)['items'] == [book.to_dict()]
+
+
+def test_error_invalid_publication_year(client, books):
+    """
+    Certifies a validation error is raised if an
+    invalid publication year is used in the request.
+    """
+    resp = client.get('/api/books', {'publication_year': 20100})
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+    assert json.loads(resp.content) == {"message": "Please, fill a valid publication year."}
