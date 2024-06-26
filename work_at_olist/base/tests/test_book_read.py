@@ -3,6 +3,8 @@ import json
 import pytest
 from http import HTTPStatus
 
+from work_at_olist.base.schemas import BookOut
+
 
 @pytest.fixture
 def resp_book_read_page(client, book):
@@ -26,7 +28,8 @@ def test_book_is_present_on_page(resp_book_read_page, book):
     """
     Certifies that the book is shown on read page.
     """
-    assert json.loads(resp_book_read_page.content) == book.to_dict()
+    book_out = BookOut.from_orm(book)
+    assert json.loads(resp_book_read_page.content) == book_out.dict()
 
 
 def test_book_not_found_incorrect_id(client, db):

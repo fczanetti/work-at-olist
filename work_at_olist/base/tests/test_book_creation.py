@@ -4,6 +4,7 @@ import pytest
 from http import HTTPStatus
 
 from work_at_olist.base.models import Book
+from work_at_olist.base.schemas import BookOut
 
 
 @pytest.fixture
@@ -40,7 +41,8 @@ def test_book_returned_after_created(resp_book_creation):
     Certifies the book is returned after its creation.
     """
     book = Book.objects.first()
-    assert json.loads(resp_book_creation.content) == book.to_dict()
+    book_out = BookOut.from_orm(book)
+    assert json.loads(resp_book_creation.content) == book_out.dict()
 
 
 def test_book_location_informed_after_creation(resp_book_creation):

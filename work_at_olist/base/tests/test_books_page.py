@@ -3,6 +3,7 @@ from http import HTTPStatus
 
 import pytest
 
+from work_at_olist.base.schemas import BookOut
 from work_at_olist.django_assertions import assert_contains, assert_not_contains
 
 
@@ -36,7 +37,8 @@ def test_books_present_books_page(resp_books_page, books):
     Certifies that the books are present in books page.
     """
     for book in books:
-        assert_contains(resp_books_page, json.dumps(book.to_dict()))
+        book_out = BookOut.from_orm(book)
+        assert_contains(resp_books_page, json.dumps(book_out.dict()))
 
 
 def test_correct_books_shown_page_2(resp_books_page_2, books):
@@ -45,9 +47,11 @@ def test_correct_books_shown_page_2(resp_books_page_2, books):
     shown in page 2.
     """
     for book in books[3:6]:
-        assert_contains(resp_books_page_2, json.dumps(book.to_dict()))
+        book_out = BookOut.from_orm(book)
+        assert_contains(resp_books_page_2, json.dumps(book_out.dict()))
     for book in books[0:3]:
-        assert_not_contains(resp_books_page_2, json.dumps(book.to_dict()))
+        book_out = BookOut.from_orm(book)
+        assert_not_contains(resp_books_page_2, json.dumps(book_out.dict()))
 
 
 def test_correct_number_of_pages_and_current_books_page(resp_books_page_2):

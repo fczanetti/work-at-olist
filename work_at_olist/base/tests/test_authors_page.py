@@ -4,6 +4,7 @@ import pytest
 from http import HTTPStatus
 
 from work_at_olist.base.models import Author
+from work_at_olist.base.schemas import AuthorOut
 from work_at_olist.django_assertions import assert_contains, assert_not_contains
 
 
@@ -49,7 +50,8 @@ def test_authors_present_in_authors_page(resp_authors_page, authors):
     considers that the user is accessing the first page.
     """
     for author in authors[:10]:
-        assert_contains(resp_authors_page, json.dumps(author.to_dict()))
+        author_out = AuthorOut.from_orm(author)
+        assert_contains(resp_authors_page, json.dumps(author_out.dict()))
 
 
 def test_correct_authors_shown_page_2(resp_authors_page_2, authors):
@@ -59,9 +61,11 @@ def test_correct_authors_shown_page_2(resp_authors_page_2, authors):
     - authors from 10 to 19 are shown in page 2.
     """
     for author in authors[:10]:
-        assert_not_contains(resp_authors_page_2, json.dumps(author.to_dict()))
+        author_out = AuthorOut.from_orm(author)
+        assert_not_contains(resp_authors_page_2, json.dumps(author_out.dict()))
     for author in authors[10:20]:
-        assert_contains(resp_authors_page_2, json.dumps(author.to_dict()))
+        author_out = AuthorOut.from_orm(author)
+        assert_contains(resp_authors_page_2, json.dumps(author_out.dict()))
 
 
 def test_filter_by_name(client, authors):
@@ -70,5 +74,6 @@ def test_filter_by_name(client, authors):
     when filtering by name.
     """
     author = Author.objects.get(name='Author 5')
+    author_out = AuthorOut.from_orm(author)
     resp = client.get('/api/authors', {'name': author.name})
-    assert json.loads(resp.content)['items'] == [author.to_dict()]
+    assert json.loads(resp.content)['items'] == [author_out.dict()]

@@ -7,12 +7,6 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
-    def to_dict(self):
-        return {
-            "id": self.pk,
-            "name": self.name
-        }
-
 
 class Book(models.Model):
     name = models.CharField(max_length=64)
@@ -25,12 +19,3 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return f'/api/books/{self.pk}'
-
-    def to_dict(self):
-        return {
-            'id': self.pk,
-            'name': self.name,
-            'edition': self.edition,
-            'publication_year': self.publication_year,
-            'authors': [author.pk for author in self.authors.all()]
-        }

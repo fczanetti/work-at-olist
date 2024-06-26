@@ -54,7 +54,7 @@ def book_update(request, book_id: int, payload: BookIn):
 @router.delete('/books/delete/{book_id}', response=BookOut)
 def book_delete(request, book_id: int):
     book = get_object_or_404(Book, id=book_id)
-    data = book.to_dict()
+    data = BookOut.from_orm(book).dict()
     book.delete()
 
     return data
