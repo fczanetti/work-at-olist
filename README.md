@@ -143,11 +143,13 @@ Now you can visit http://127.0.0.1:8000/api/docs to test some requests.
 
 ## Importing authors from .csv
 
+This command will import the authors listed in authors.csv. This file is in the root diretory of this project.
+
 ```
 python manage.py import_authors authors.csv
 ```
 
-If you installed using Docker, use this command:
+If you installed using Docker, use this command after starting the containers:
 
 ```
 docker exec <CONTAINER_ID> python manage.py import_authors authors.csv
@@ -161,7 +163,7 @@ You can run the tests to make sure everything is working.
 pytest
 ```
 
-Use the following command if you installed this project with Docker:
+Use the following command if you installed this project with Docker. The containers must be started first.
 
 ```
 docker exec <CONTAINER_ID> pytest
