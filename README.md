@@ -151,7 +151,200 @@ docker exec <CONTAINER_ID> pytest
 
 ## API documentation
 
-In construction
+Once you have your application running, you can visit http://127.0.0.1:8000/api/docs and test some requests. You can also check in this section some examples.
+
+### 1 - Retrieving authors
+
+To retrieve the authors registered, send a GET request to:
+```
+http://127.0.0.1:8000/api/authors
+```
+You can also use some filters to be more specific, for example: 
+```
+http://127.0.0.1:8000/api/authors?name=Bob&page=1&num_items=10
+```
+Where:
+- name: name of the author;
+- page: number of page in case of big responses;
+- num_items: number of items to be shown in each page.
+
+If successfull, the response will return in the following format with status code 200.
+
+```
+{
+  "items": [
+    {
+      "id": 24,
+      "name": "Bob"
+    }
+  ],
+  "num_pages": 1,
+  "curr_page": 1
+}
+```
+
+### 2 - Retrieving books
+
+To retrieve books, send a GET request to:
+
+```
+http://127.0.0.1:8000/api/books
+```
+
+You can also apply some filters, for example:
+
+```
+http://127.0.0.1:8000/api/books?name=Book&edition=1
+```
+
+The possible filters are:
+- name: name of the book (ex. name=Book);
+- edition: edition of the book (ex. edition=1);
+- publication_year: publication year of the book (ex. publication_year=2024);
+- authors: ID of the author. There can be more than one (ex. authors=2&authors=3);
+
+Choosing page and num_items is also possible here.
+
+If successfull, the response will return in the following format with status code 200.
+
+```
+{
+  "items": [
+    {
+      "id": 11,
+      "name": "Book",
+      "edition": 1,
+      "publication_year": 2024,
+      "authors": [
+        2
+      ]
+    }
+  ],
+  "num_pages": 1,
+  "curr_page": 1
+}
+```
+
+### 3 - Retrieving/reading a specific book
+
+To retrieve a specific book, send a GET request informing the ID of the book:
+
+```
+http://127.0.0.1:8000/api/books/{book_id}
+```
+
+For example: 
+
+```
+http://127.0.0.1:8000/api/books/1
+```
+
+If successfull, the response will be in this format with status code 200.
+
+```
+{
+  "id": 1,
+  "name": "Book 01",
+  "edition": 2,
+  "publication_year": 2024,
+  "authors": [
+    1,
+    3
+  ]
+}
+```
+
+### 4 - Creating a new book
+
+To create a book, send a POST request to:
+
+```
+http://127.0.0.1:8000/api/books/create
+```
+
+The body of the request should be in the following format:
+
+```
+{
+  "name": "New Test Book",
+  "edition": 1,
+  "publication_year": 2024,
+  "authors": [
+    1
+  ]
+}
+```
+
+If successfull, the response will have a 201 status code and the created book will be returned. Also, there will be a response header named 'location' to inform the location of the new book.
+
+```
+{
+  "id": 13,
+  "name": "New Test Book",
+  "edition": 1,
+  "publication_year": 2024,
+  "authors": [
+    1
+  ]
+}
+```
+
+### 5 - Updating a book
+
+To update a book, send a PUT request to the following address:
+
+```
+http://127.0.0.1:8000/api/books/update/{book_id}
+```
+
+The body of the request has to be in this format. Let's suppose we used 13 as the book_id:
+
+```
+{
+  "name": "New Test Book Updated",
+  "edition": 1,
+  "publication_year": 2024,
+  "authors": [
+    1
+  ]
+}
+```
+
+If successfull, the response will have a 200 status code and the following format:
+
+```
+{
+  "id": 13,
+  "name": "New Test Book Updated",
+  "edition": 1,
+  "publication_year": 2024,
+  "authors": [
+    1
+  ]
+}
+```
+
+### 6 - Deleting a book
+
+To delete a book, send a DELETE request informing the ID of the book.
+
+```
+http://127.0.0.1:8000/api/books/delete/{book_id}
+```
+
+Let's suppose we used 13 again as the ID of the book. If successfull, the deleted book will be in the body of the response and the status code will be 200.
+
+```
+{
+  "id": 13,
+  "name": "New Test Book Updated",
+  "edition": 1,
+  "publication_year": 2024,
+  "authors": [
+    1
+  ]
+}
+```
 
 
 ## Working environment
