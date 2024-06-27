@@ -15,6 +15,25 @@ This project was developed to solve the challenge proposed by Olist. It consists
 More details can be checked in [their requirements](https://github.com/fczanetti/work-at-olist/blob/main/olist_instructions.md). You can also visit the [original repository](https://github.com/olist/work-at-olist).
 
 
+# Content
+
+- [Database](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#database)
+- [Folder strucure](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#folder-structure)
+- [Installing](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#installing)
+- [Installing with Docker](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#installing-with-docker)
+- [Importing authors from .csv](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#importing-authors-from-csv)
+- [Running tests](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#running-tests)
+- [API documentation](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#api-documentation)
+    - [Retrieving authors](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#1---retrieving-authors)
+    - [Retrieving books](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#2---retrieving-books)
+    - [Retrieving/reading a specific book](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#3---retrievingreading-a-specific-book)
+    - [Creating a new book](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#4---creating-a-new-book)
+    - [Updating a book](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#5---updating-a-book)
+    - [Deleting a book](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#6---deleting-a-book)
+- [Working environment](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#working-environment)
+
+
+
 ## Database
 
 ```mermaid
