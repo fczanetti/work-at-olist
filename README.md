@@ -92,18 +92,47 @@ cp contrib/env-sample .env
 python manage.py migrate
 ```
 
-7 - Import some authors listed in authors.csv:
-```
-python manage.py import_authors authors.csv
-```
-
-8 - Start the server:
+7 - Start the server:
 ```
 python manage.py runserver
 ```
 
-By now you should have the project running with some authors imported/saved on your local database. You can visit http://127.0.0.1:8000/api/docs to test some requests.
+By now you should have the project running. You can visit http://127.0.0.1:8000/api/docs to test some requests.
 
+
+## Installing with Docker
+
+1 - Follow the steps 1 to 4 from the [Installing section](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#installing); 
+
+2 - On your .env file, adjust the database environment variables to look like this:
+
+```
+DATABASE_URL=postgres://user01:pass01@localhost:5438/olistdb
+POSTGRES_PASSWORD=pass01
+POSTGRES_USER=user01
+POSTGRES_DB=olistdb
+```
+
+3 - Start the containers.
+
+```
+docker compose up -d
+```
+
+Now you can visit http://127.0.0.1:8000/api/docs to test some requests.
+
+
+## Importing authors from .csv
+
+```
+python manage.py import_authors authors.csv
+```
+
+If you installed using Docker, use this command:
+
+```
+docker exec <CONTAINER_ID> python manage.py import_authors authors.csv
+```
 
 ## Running tests
 
@@ -113,10 +142,11 @@ You can run the tests to make sure everything is working.
 pytest
 ```
 
+Use the following command if you installed this project with Docker:
 
-## Installing with Docker
-
-In construction
+```
+docker exec <CONTAINER_ID> pytest
+```
 
 
 ## API documentation
