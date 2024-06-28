@@ -370,4 +370,25 @@ Let's suppose we used 13 again as the ID of the book. If successfull, the delete
 
 ## Working environment
 
-In construction
+Here you can check some of the main tools used to develop this API.
+
+### Computer details
+- Dell Vostro 15 3510;
+- 8GB RAM;
+- Processing unit:  11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz[Cores 4] [Logical processors 8];
+- Operating system: Linux environment, provided by Windows Subsystem for Linux (WSL) installed on Windows 11 Pro.
+
+### Editor
+
+- PyCharm Community Edition 2024.1.3
+
+### Main languages and libraries
+
+- Python 3.11.6;
+- Django 5.0.6;
+- Django Ninja 1.1.0;
+- Pytest-django;
+- Python Decouple;
+- Flake8;
+- Codecov;
+- Sentry-sdk;
