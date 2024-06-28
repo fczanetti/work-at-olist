@@ -33,8 +33,9 @@ def books_list(request, filters: BookFilterSchema = Query(...)):
 @router.post('/books/create', response={201: BookOut})
 def book_creation(request, payload: BookIn, response: HttpResponse):
     payload_dict = payload.dict()
+    book = create_book(payload_dict, response)
 
-    return create_book(payload_dict, response)
+    return book
 
 
 @router.get('/books/{book_id}', response=BookOut)

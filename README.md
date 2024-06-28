@@ -17,6 +17,7 @@ More details can be checked in [their requirements](https://github.com/fczanetti
 
 # Content
 
+- [Deploy](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#deploy)
 - [Database](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#database)
 - [Folder strucure](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#folder-structure)
 - [Installing](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#installing)
@@ -32,6 +33,14 @@ More details can be checked in [their requirements](https://github.com/fczanetti
     - [Deleting a book](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#6---deleting-a-book)
 - [Working environment](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#working-environment)
 
+
+## Deploy
+
+This project was deployed in Heroku and will remain there for some time. You can access using the link below to test it.
+
+```
+https://workatolist-c867b70ddbba.herokuapp.com/api/docs
+```
 
 
 ## Database

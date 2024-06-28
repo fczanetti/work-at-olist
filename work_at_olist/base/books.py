@@ -36,7 +36,7 @@ def create_book(payload_dict, response: HttpResponse):
     book.authors.add(*authors)
     response['Location'] = book.get_absolute_url()
 
-    return 201, book
+    return book
 
 
 def update_book(book: Book, payload: BookIn):
