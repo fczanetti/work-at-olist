@@ -34,15 +34,6 @@ More details can be checked in [their requirements](https://github.com/fczanetti
 - [Working environment](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#working-environment)
 
 
-## Deploy
-
-This project was deployed in Heroku and will remain there for some time. You can access using the link below to test it.
-
-```
-https://workatolist-c867b70ddbba.herokuapp.com/api/docs
-```
-
-
 ## Database
 
 ```mermaid
