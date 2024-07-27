@@ -17,7 +17,6 @@ More details can be checked in [their requirements](https://github.com/fczanetti
 
 # Content
 
-- [Deploy](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#deploy)
 - [Database](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#database)
 - [Folder strucure](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#folder-structure)
 - [Installing](https://github.com/fczanetti/work-at-olist?tab=readme-ov-file#installing)
